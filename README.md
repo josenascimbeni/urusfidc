@@ -4,6 +4,7 @@ Protótipo navegável de uma plataforma SaaS que qualifica operações financeir
 
 ## O que está incluído
 
+- home institucional responsiva com proposta de valor, jornada e segurança;
 - acesso demonstrativo como profissional ou administrador;
 - isolamento visual de operações por profissional;
 - cadastro de operações em quatro etapas;

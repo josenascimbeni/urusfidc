@@ -10,16 +10,17 @@ async function render() {
   }, { waitUntil() {}, passThroughOnException() {} });
 }
 
-test("renderiza a entrada demonstrativa da Urus FIDC", async () => {
+test("renderiza a home pública da Urus FIDC", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /Urus FIDC/i);
   assert.match(html, /Matching inteligente de crédito/i);
-  assert.match(html, /Escolha um perfil/i);
-  assert.match(html, /Marina Costa/i);
-  assert.match(html, /Administrador Urus FIDC/i);
-  assert.match(html, /Não use dados reais/i);
+  assert.match(html, /Crédito certo/i);
+  assert.match(html, /No FIDC certo/i);
+  assert.match(html, /UMA PLATAFORMA. TODA A JORNADA/i);
+  assert.match(html, /Acessar plataforma/i);
+  assert.match(html, /LGPD por concepção/i);
   assert.doesNotMatch(html, /codex-preview|Building your site|react-loading-skeleton/i);
 });
