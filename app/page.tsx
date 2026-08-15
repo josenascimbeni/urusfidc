@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { SparklesCore } from "@/components/ui/sparkles";
 import { BRAZIL_STATES, createDocuments, DOCUMENT_BLUEPRINT, INITIAL_FIDCS, INITIAL_OPERATIONS, OPERATION_TYPES, SEGMENTS, USERS } from "./mock-data";
 import { calculateMatches } from "./matching";
 import type { ChecklistDocument, FidcProfile, FidcStatus, JourneyState, Operation, OperationForm, RevenueMode, User } from "./types";
@@ -41,19 +42,21 @@ function Landing({ onAccess }: { onAccess: () => void }) {
         <button className="landing-access" onClick={onAccess}>Acessar plataforma <span>↗</span></button>
       </header>
       <section className="landing-hero" id="inicio">
-        <div className="hero-copy">
-          <p className="landing-kicker"><span /> INTELIGÊNCIA PARA O MERCADO DE CRÉDITO</p>
-          <h1>Crédito certo.<br/><em>No FIDC certo.</em></h1>
-          <p className="hero-lead">Uma plataforma que qualifica operações financeiras, encontra os fundos mais aderentes e conecta toda a jornada — do perfil ao repasse da comissão.</p>
-          <div className="hero-actions"><button className="landing-primary" onClick={onAccess}>Encontrar o match <span>→</span></button><a href="#plataforma">Conhecer a plataforma <span>↓</span></a></div>
+        <div className="hero-sparkles" aria-hidden="true">
+          <SparklesCore id="urus-premium-sparkles" background="transparent" minSize={0.35} maxSize={1.15} particleDensity={180} particleColor="#d8c28d" speed={0.55} className="h-full w-full" />
         </div>
-        <div className="hero-match-visual" aria-label="Representação visual do matching entre uma operação e FIDCs">
-          <div className="visual-label operation-label">OPERAÇÃO QUALIFICADA</div>
-          <article className="visual-operation"><span className="visual-company">HC</span><div><strong>Horizonte Agroindustrial</strong><small>Capital de Giro · R$ 5 mi</small></div><b>AGRO</b></article>
-          <div className="match-orbit"><span className="orbit-one"/><span className="orbit-two"/><div><strong>96</strong><small>match</small></div></div>
-          <div className="visual-label funds-label">FIDCS ADERENTES</div>
-          <div className="visual-funds"><article><span>MU</span><div><strong>Multiplica</strong><small>96% de aderência</small></div><b>✓</b></article><article><span>IN</span><div><strong>Invista</strong><small>92% de aderência</small></div><b>✓</b></article><article><span>CA</span><div><strong>Cacau Crédito</strong><small>88% de aderência</small></div><b>✓</b></article></div>
-          <div className="visual-lines" aria-hidden="true"><i/><i/><i/></div>
+        <div className="hero-aura" aria-hidden="true" />
+        <div className="hero-copy">
+          <p className="landing-kicker"><span /> CURADORIA, TECNOLOGIA E CRÉDITO</p>
+          <h1>Crédito certo.<br/><em>No FIDC certo.</em></h1>
+          <p className="hero-lead">Uma plataforma exclusiva para qualificar operações financeiras, encontrar os fundos mais aderentes e conduzir toda a jornada com precisão.</p>
+          <div className="hero-actions"><button className="landing-primary" onClick={onAccess}>Encontrar o match <span>→</span></button><a href="#plataforma">Conhecer a plataforma <span>↓</span></a></div>
+          <div className="hero-signature" aria-hidden="true"><i/><span>Matching inteligente de crédito</span><i/></div>
+        </div>
+        <div className="hero-proof" aria-label="Diferenciais da Urus FIDC">
+          <article><span>01</span><strong>Curadoria especializada</strong><small>Perfis e critérios de FIDCs organizados pela Urus.</small></article>
+          <article><span>02</span><strong>Decisão explicável</strong><small>Score, aderências e divergências visíveis em cada match.</small></article>
+          <article><span>03</span><strong>Jornada integral</strong><small>Da originação ao comitê, proposta e comissão.</small></article>
         </div>
         <div className="hero-foot"><span>QUALIFICAÇÃO</span><i/><span>MATCHING EXPLICÁVEL</span><i/><span>JORNADA PONTA A PONTA</span></div>
       </section>

@@ -14,9 +14,15 @@
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@tsparticles/engine": "^4.3.2",
+    "@tsparticles/react": "^4.3.2",
+    "@tsparticles/slim": "^4.3.2",
+    "clsx": "^2.1.1",
     "drizzle-orm": "0.45.2",
+    "framer-motion": "^13.1.0",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",
