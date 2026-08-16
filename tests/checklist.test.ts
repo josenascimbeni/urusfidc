@@ -19,3 +19,16 @@ test("excluir um adicional não remove documentos herdados do padrão", () => {
   assert.deepEqual(checklistItemsForFidc("multiplica", templates).map((item) => item.id), STANDARD_CHECKLIST_ITEMS.map((item) => item.id));
   assert.equal(createDocuments("OP-TEST", "owner", ["multiplica"], templates).length, STANDARD_CHECKLIST_ITEMS.length);
 });
+
+test("documento adicional preserva a classificação de obrigatoriedade", () => {
+  const templates = structuredClone(INITIAL_CHECKLIST_TEMPLATES);
+  const multiplica = templates.find((template) => template.fidcId === "multiplica");
+  assert.ok(multiplica);
+  const active = multiplica.versions.find((version) => version.version === multiplica.activeVersion);
+  assert.ok(active);
+  active.items.push({ ...active.items[0], id: "optional-report", name: "Relatório complementar", required: false, order: 2 });
+  const requirements = createDocuments("OP-OPTIONAL", "owner", ["multiplica"], templates);
+  const optional = requirements.find((requirement) => requirement.name === "Relatório complementar");
+  assert.equal(optional?.required, false);
+  assert.equal(requirements.filter((requirement) => requirement.required).includes(optional!), false);
+});

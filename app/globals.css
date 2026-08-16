@@ -642,6 +642,9 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
 .checklist-editor > label { display: grid; gap: 6px; color: #536075; font-size: 8px; font-weight: 700; }
 .checklist-editor input, .checklist-editor textarea, .checklist-editor select, .report-filters input, .report-filters select, .plan-editor input { width: 100%; min-height: 36px; padding: 9px; border: 1px solid #d9dee6; border-radius: 6px; background: white; font: inherit; }
 .checklist-editor textarea { min-height: 65px; resize: vertical; }
+.checklist-editor .form-grid > label:last-child { grid-column: 1 / -1; padding: 12px; border: 1px solid #d8c79e; border-radius: 8px; color: #263957; background: #fbf7ec; }
+.checklist-editor .form-grid > label:last-child::after { content: "Obrigatório bloqueia a distribuição quando estiver pendente. Não obrigatório não bloqueia."; color: #71684f; font-size: 7px; font-weight: 400; line-height: 1.45; }
+.checklist-editor .form-grid > label:last-child select { border-color: #cdbb8d; font-weight: 700; }
 .report-filters { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 16px 0; padding: 16px; }
 .report-filters label { display: grid; gap: 6px; color: #59677b; font-size: 8px; font-weight: 700; }
 .report-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
