@@ -151,6 +151,12 @@ export function checklistItemsForFidc(fidcId: string, availableTemplates: Checkl
   ];
 }
 
+export function additionalItemsFromTemplate(templateId: string, availableTemplates: ChecklistTemplate[] = INITIAL_CHECKLIST_TEMPLATES) {
+  const source = availableTemplates.find((template) => template.id === templateId);
+  if (!source || source.scope === "Padrão") return [];
+  return activeTemplateItems(source).map((item, index) => ({ ...structuredClone(item), order: index + 1 }));
+}
+
 export function createDocuments(operationId: string, ownerId: string, fidcIds: string[] = ["standard"], availableTemplates: ChecklistTemplate[] = INITIAL_CHECKLIST_TEMPLATES): ChecklistDocument[] {
   return fidcIds.flatMap((fidcId) => {
     const standard = availableTemplates.find((candidate) => candidate.scope === "Padrão") ?? availableTemplates[0];

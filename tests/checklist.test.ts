@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { activeTemplateItems, checklistItemsForFidc, createDocuments, INITIAL_CHECKLIST_TEMPLATES, STANDARD_CHECKLIST_ITEMS } from "../app/mock-data";
+import { activeTemplateItems, additionalItemsFromTemplate, checklistItemsForFidc, createDocuments, INITIAL_CHECKLIST_TEMPLATES, STANDARD_CHECKLIST_ITEMS } from "../app/mock-data";
 
 test("todo FIDC herda o padrão Urus e soma apenas seus adicionais", () => {
   const multiplicaTemplate = INITIAL_CHECKLIST_TEMPLATES.find((template) => template.fidcId === "multiplica");
@@ -31,4 +31,12 @@ test("documento adicional preserva a classificação de obrigatoriedade", () => 
   const optional = requirements.find((requirement) => requirement.name === "Relatório complementar");
   assert.equal(optional?.required, false);
   assert.equal(requirements.filter((requirement) => requirement.required).includes(optional!), false);
+});
+
+test("novo FIDC pode iniciar sem adicionais ou copiar adicionais de outro checklist", () => {
+  assert.deepEqual(additionalItemsFromTemplate("tpl-standard"), []);
+  const copied = additionalItemsFromTemplate("tpl-multiplica");
+  assert.equal(copied.length, 1);
+  assert.equal(copied[0].name, "Relatório detalhado de recebíveis");
+  assert.notEqual(copied[0], activeTemplateItems(INITIAL_CHECKLIST_TEMPLATES.find((template) => template.id === "tpl-multiplica")!)[0]);
 });
