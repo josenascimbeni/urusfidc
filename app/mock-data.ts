@@ -128,7 +128,7 @@ const templateFor = (profile: FidcProfile): ChecklistTemplate => {
     fidcId: profile.id,
     status: "Ativo",
     activeVersion: 1,
-    versions: [{ id: `${profile.checklistTemplateId}-v1`, version: 1, createdAt: "15/08/2026", createdBy: "admin", items: [...STANDARD_CHECKLIST_ITEMS, ...extras.map((current, index) => ({ ...current, order: STANDARD_CHECKLIST_ITEMS.length + index + 1 }))] }],
+    versions: [{ id: `${profile.checklistTemplateId}-v1`, version: 1, createdAt: "15/08/2026", createdBy: "admin", items: extras.map((current, index) => ({ ...current, order: index + 1 })) }],
   };
 };
 
@@ -137,18 +137,34 @@ export const INITIAL_CHECKLIST_TEMPLATES: ChecklistTemplate[] = [
   ...INITIAL_FIDCS.map(templateFor),
 ];
 
+export function activeTemplateItems(template: ChecklistTemplate) {
+  const version = template.versions.find((candidate) => candidate.version === template.activeVersion) ?? template.versions[0];
+  return version?.items.filter((current) => current.active) ?? [];
+}
+
+export function checklistItemsForFidc(fidcId: string, availableTemplates: ChecklistTemplate[] = INITIAL_CHECKLIST_TEMPLATES) {
+  const standard = availableTemplates.find((candidate) => candidate.scope === "Padrão");
+  const fidcTemplate = availableTemplates.find((candidate) => candidate.fidcId === fidcId);
+  return [
+    ...activeTemplateItems(standard ?? availableTemplates[0]),
+    ...(fidcTemplate ? activeTemplateItems(fidcTemplate) : []),
+  ];
+}
+
 export function createDocuments(operationId: string, ownerId: string, fidcIds: string[] = ["standard"], availableTemplates: ChecklistTemplate[] = INITIAL_CHECKLIST_TEMPLATES): ChecklistDocument[] {
   return fidcIds.flatMap((fidcId) => {
-    const template = availableTemplates.find((candidate) => candidate.fidcId === fidcId) ?? availableTemplates.find((candidate) => candidate.scope === "Padrão") ?? availableTemplates[0];
-    const version = template.versions.find((candidate) => candidate.version === template.activeVersion) ?? template.versions[0];
-    return version.items.filter((current) => current.active).map((current, index) => ({
+    const standard = availableTemplates.find((candidate) => candidate.scope === "Padrão") ?? availableTemplates[0];
+    const fidcTemplate = availableTemplates.find((candidate) => candidate.fidcId === fidcId);
+    const standardItems = activeTemplateItems(standard).map((current) => ({ item: current, template: standard }));
+    const additionalItems = fidcTemplate ? activeTemplateItems(fidcTemplate).map((current) => ({ item: current, template: fidcTemplate })) : [];
+    return [...standardItems, ...additionalItems].map(({ item: current, template }, index) => ({
       ...current,
       id: `${operationId}-${fidcId}-${current.id}`,
       operationId,
       ownerId,
       fidcId,
       templateId: template.id,
-      templateVersion: version.version,
+      templateVersion: template.activeVersion,
       status: index < 3 ? "Aprovado" : index < 5 ? "Revisão necessária" : "Pendente",
       uploadedDocumentIds: [],
     }));
