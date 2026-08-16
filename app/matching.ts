@@ -7,7 +7,7 @@ function revenuePasses(operation: OperationForm, fidc: FidcProfile): boolean {
 }
 
 function money(value: number) {
-  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value);
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(value / 100);
 }
 
 export function calculateMatches(operation: OperationForm, fidcs: FidcProfile[]): MatchResult[] {

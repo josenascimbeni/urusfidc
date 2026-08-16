@@ -8,12 +8,13 @@ const operation: OperationForm = {
   companyName: "Empresa Teste",
   cnpj: "11.222.333/0001-81",
   segment: "Agro",
-  annualRevenue: 45_000_000,
+  annualRevenue: 4_500_000_000,
   city: "Rondonópolis",
   state: "MT",
-  amount: 5_000_000,
+  amount: 500_000_000,
   operationType: "Capital de Giro",
-  guaranteeValue: 7_000_000,
+  hasGuarantee: true,
+  guaranteeValue: 700_000_000,
   guaranteeType: "Recebíveis",
   salesMethod: "Contratos B2B",
   receiptMethod: "Boleto",
@@ -35,7 +36,7 @@ test("respeita operador máximo configurado pelo administrador", () => {
     id: "max-test",
     name: "Máximo Teste",
     revenueMode: "Máximo",
-    minRevenue: 40_000_000,
+    minRevenue: 4_000_000_000,
   };
   const [result] = calculateMatches(operation, [configured]);
   assert.equal(result.eligible, false);
