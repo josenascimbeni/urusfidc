@@ -10,6 +10,7 @@ test("home apresenta o plano mensal real e o contato oficial por WhatsApp", () =
   assert.match(home, /R\$ 99,00 cobrados mensalmente/);
   assert.match(home, /<span>100<\/span><small>novos casos por ciclo<\/small>/);
   assert.match(home, /wa\.me\/551131641239/);
+  assert.match(home, /assinatura%20da%20Plataforma%20Urus%20Fidc/);
   assert.match(home, /rel="noopener noreferrer"/);
 });
 

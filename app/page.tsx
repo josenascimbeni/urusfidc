@@ -35,7 +35,7 @@ type DetailTab = "summary" | "matching" | "documents" | "journey";
 
 const EMPTY_OPERATION: OperationForm = { companyName: "", cnpj: "", segment: "", annualRevenue: 0, city: "", state: "", amount: 0, operationType: "", hasGuarantee: true, guaranteeValue: 0, guaranteeType: "", salesMethod: "", receiptMethod: "" };
 const EMPTY_JOURNEY: JourneyState = { sentToUrus: false, distributed: false, interested: false, meetingScheduled: false, committeeResult: "Pendente", proposalShared: false, commission: "Aguardando FIDC" };
-const WHATSAPP_URL = "https://wa.me/551131641239?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20a%20assinatura%20Urus%20100.";
+const WHATSAPP_URL = "https://wa.me/551131641239?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20a%20assinatura%20da%20Plataforma%20Urus%20Fidc";
 
 function currency(value: number, compact = false) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", notation: compact ? "compact" : "standard", maximumFractionDigits: compact ? 1 : 2 }).format(value / 100);
