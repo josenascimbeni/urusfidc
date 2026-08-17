@@ -45,4 +45,7 @@ test("checkout retorna session_id e eventos ficam nos pontos corretos", () => {
   assert.match(actions, /trackMetaEvent\("InitiateCheckout"/);
   assert.match(purchase, /trackMetaEvent\("Purchase"/);
   assert.match(purchase, /\/api\/billing\/checkout\/confirmation/);
+  assert.match(purchase, /transaction_id: purchase\.transactionId/);
+  assert.match(purchase, /payment_not_confirmed/);
+  assert.match(purchase, /localStorage\.setItem/);
 });
