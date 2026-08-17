@@ -16,6 +16,8 @@ test("home apresenta o plano mensal real e o contato oficial por WhatsApp", () =
 test("plano e WhatsApp possuem tratamento responsivo e foco acessível", () => {
   assert.match(styles, /\.landing-plan\s*\{[^}]*grid-template-columns:/);
   assert.match(styles, /\.landing-whatsapp\s*\{[^}]*position:\s*fixed/);
+  assert.match(styles, /\.landing-whatsapp\s*\{[^}]*width:\s*52px[^}]*border-radius:\s*50%/);
+  assert.match(styles, /\.landing-whatsapp span\s*\{[^}]*clip-path:\s*inset\(50%\)/);
   assert.match(styles, /@media \(max-width: 720px\)[\s\S]*\.landing-whatsapp/);
   assert.match(styles, /\.landing-shell button:focus-visible, \.landing-shell a:focus-visible/);
 });

@@ -598,8 +598,9 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
 .plan-contract li span { color: #53718d; font-family: "SFMono-Regular", Consolas, monospace; font-size: 7px; }
 .plan-contract-action { width: calc(100% - 68px); margin: 14px 34px 0; text-decoration: none; }
 .plan-contract-note { display: block; padding: 14px 34px 28px; line-height: 1.55; }
-.landing-whatsapp { position: fixed; z-index: 28; right: 24px; bottom: 24px; min-height: 52px; display: inline-flex; align-items: center; gap: 10px; padding: 0 17px 0 13px; border: 1px solid #70e4a578; border-radius: 28px; color: #eafff2; background: #08783ff0; box-shadow: 0 15px 42px #0007, 0 0 0 4px #0ca55a14; backdrop-filter: blur(12px); text-decoration: none; font-size: 11px; font-weight: 680; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.landing-whatsapp { position: fixed; z-index: 28; right: 24px; bottom: 24px; width: 52px; min-height: 52px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 1px solid #70e4a578; border-radius: 50%; color: #eafff2; background: #08783ff0; box-shadow: 0 15px 42px #0007, 0 0 0 4px #0ca55a14; backdrop-filter: blur(12px); text-decoration: none; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
 .landing-whatsapp svg { width: 27px; height: 27px; fill: currentColor; }
+.landing-whatsapp span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .landing-whatsapp:hover { color: white; background: #09964e; box-shadow: 0 18px 48px #0008, 0 0 0 5px #1dd56f20; transform: translateY(-2px); }
 
 .landing-final-cta { position: relative; min-height: 560px; display: grid; justify-items: center; align-content: center; padding: 100px 24px; overflow: hidden; text-align: center; color: white; background: #0b1828; }
@@ -701,8 +702,7 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
   .plan-contract ul { grid-template-columns: 1fr; padding: 22px 24px 10px; }
   .plan-contract-action { width: calc(100% - 48px); margin-inline: 24px; }
   .plan-contract-note { padding: 14px 24px 24px; }
-  .landing-whatsapp { right: 16px; bottom: 16px; width: 52px; padding: 0; justify-content: center; }
-  .landing-whatsapp span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .landing-whatsapp { right: 16px; bottom: 16px; }
   .landing-final-cta { min-height: 520px; padding-inline: 20px; }
   .landing-footer { grid-template-columns: 1fr 1fr; gap: 40px 24px; padding: 58px 20px 34px; }
   .landing-footer > div:first-child, .landing-footer .footer-note { grid-column: 1 / -1; }
