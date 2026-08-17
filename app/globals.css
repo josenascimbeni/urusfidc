@@ -1166,6 +1166,18 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
   padding-top: 22px;
   border-top: 1px solid #dfd2ae;
 }
+.partner-access-form { display: grid; grid-template-columns: minmax(220px, 1fr) minmax(180px, 250px) auto; align-items: end; gap: 14px; padding: 16px; border: 1px solid #c9b477; border-radius: 9px; background: linear-gradient(105deg, #fffdf8, #f1e7cf); box-shadow: inset 4px 0 0 var(--gold); }
+.partner-access-form > div { display: grid; gap: 4px; }
+.partner-access-form .eyebrow { margin: 0; color: #80662f; }
+.partner-access-form strong { color: var(--navy); font: 500 17px Georgia, serif; }
+.partner-access-form small { color: #6e7480; font-size: 9px; line-height: 1.5; }
+.partner-access-form label { display: grid; gap: 6px; color: #5b6473; font-size: 8px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
+.partner-access-form input { width: 100%; min-height: 44px; padding: 0 12px; border: 1px solid #cdbc8d; border-radius: 7px; color: var(--navy); background: white; font-size: 11px; font-weight: 800; letter-spacing: .08em; outline: none; }
+.partner-access-form input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px #a8864520; }
+.partner-access-form .live-form-message { grid-column: 1 / -1; }
+.billing-path-divider { margin: 18px 0; display: flex; align-items: center; gap: 12px; color: #8b8069; font-size: 8px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.billing-path-divider::before, .billing-path-divider::after { height: 1px; flex: 1; background: #dfd2ae; content: ""; }
+.billing-path-divider span { white-space: nowrap; }
 .coupon-layout { grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr); }
 
 @media (max-width: 1180px) {
@@ -1177,6 +1189,8 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
 @media (max-width: 900px) {
   .live-subscription-gate { grid-template-columns: 65px minmax(0, 1fr); }
   .billing-setup--actions { grid-column: 2; }
+  .partner-access-form { grid-template-columns: minmax(0, 1fr) minmax(180px, 240px); }
+  .partner-access-form > button { grid-column: 2; }
 }
 
 @media (max-width: 620px) {
@@ -1185,6 +1199,9 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
     padding: 22px 18px;
   }
   .billing-setup--actions { grid-column: 1; }
+  .partner-access-form { grid-template-columns: minmax(0, 1fr); align-items: stretch; }
+  .partner-access-form > button { grid-column: 1; }
+  .billing-path-divider span { white-space: normal; text-align: center; }
 }
 
 .live-mfa-enroll.existing-factor { grid-template-columns: 108px 1fr; }

@@ -21,6 +21,11 @@ export function BillingActions({ hasCustomer }: { hasCustomer: boolean }) {
         setMessage(payload?.error?.message ?? "Não foi possível abrir a cobrança.");
         return;
       }
+      const redirectUrl = payload?.data?.redirectUrl;
+      if (payload?.data?.activated === true && typeof redirectUrl === "string" && redirectUrl.startsWith("/")) {
+        window.location.assign(redirectUrl);
+        return;
+      }
       const checkoutUrl = payload?.data?.url;
       if (typeof checkoutUrl !== "string" || !checkoutUrl.startsWith("https://")) {
         setMessage("A cobrança não retornou um endereço seguro. Tente novamente.");

@@ -10,6 +10,12 @@ type ReservedCoupon = {
   stripePromotionCodeId: string;
 };
 
+type ActivatedAccessCoupon = {
+  couponId: string;
+  redemptionId: string;
+  accessExpiresAt: string;
+};
+
 const couponErrors: Record<string, { status: number; message: string; code: string }> = {
   coupon_invalid: { status: 404, message: "Cupom não encontrado ou inativo.", code: "coupon_invalid" },
   coupon_expired: { status: 409, message: "Este cupom expirou.", code: "coupon_expired" },
@@ -18,7 +24,49 @@ const couponErrors: Record<string, { status: number; message: string; code: stri
   coupon_plan_ineligible: { status: 409, message: "Este cupom não se aplica ao plano selecionado.", code: "coupon_plan_ineligible" },
   coupon_limit_reached: { status: 409, message: "O limite de utilizações deste cupom foi atingido.", code: "coupon_limit_reached" },
   coupon_account_limit_reached: { status: 409, message: "Este cupom já foi utilizado por esta conta.", code: "coupon_account_limit_reached" },
+  coupon_not_access_grant: { status: 409, message: "Este cupom requer o fluxo normal de assinatura.", code: "coupon_not_access_grant" },
+  coupon_subscription_conflict: { status: 409, message: "Esta conta já possui uma assinatura vinculada. Gerencie a assinatura atual para continuar.", code: "coupon_subscription_conflict" },
 };
+
+function couponApiError(error: { message: string }) {
+  const matched = Object.entries(couponErrors).find(([key]) => error.message.includes(key));
+  if (!matched) return null;
+  const [, detail] = matched;
+  return new ApiError(detail.status, detail.message, detail.code);
+}
+
+export async function couponBypassesPayment(code: string) {
+  const admin = createAdminSupabaseClient();
+  const { data, error } = await admin.from("billing_coupons").select("payment_bypass").eq("code", code).maybeSingle();
+  if (error) throw new ApiError(500, "Não foi possível validar o cupom.", "coupon_validation_failed");
+  return data?.payment_bypass === true;
+}
+
+export async function activateAccessCoupon(input: { code: string; accountId: string; subscriptionId: string }): Promise<ActivatedAccessCoupon> {
+  const admin = createAdminSupabaseClient();
+  const { data, error } = await admin.rpc("activate_access_coupon", {
+    coupon_code: input.code,
+    target_account_id: input.accountId,
+    target_subscription_id: input.subscriptionId,
+  });
+
+  if (error) {
+    const knownError = couponApiError(error);
+    if (knownError) throw knownError;
+    throw new ApiError(500, "Não foi possível ativar o acesso promocional.", "access_coupon_activation_failed");
+  }
+
+  const activation = Array.isArray(data) ? data[0] : data;
+  if (!activation?.result_coupon_id || !activation?.result_redemption_id || !activation?.result_access_expires_at) {
+    throw new ApiError(500, "Não foi possível ativar o acesso promocional.", "access_coupon_activation_failed");
+  }
+
+  return {
+    couponId: String(activation.result_coupon_id),
+    redemptionId: String(activation.result_redemption_id),
+    accessExpiresAt: String(activation.result_access_expires_at),
+  };
+}
 
 export async function reserveBillingCoupon(input: { code: string; accountId: string; subscriptionId: string }): Promise<ReservedCoupon> {
   const admin = createAdminSupabaseClient();
@@ -30,11 +78,8 @@ export async function reserveBillingCoupon(input: { code: string; accountId: str
   });
 
   if (error) {
-    const matched = Object.entries(couponErrors).find(([key]) => error.message.includes(key));
-    if (matched) {
-      const [, detail] = matched;
-      throw new ApiError(detail.status, detail.message, detail.code);
-    }
+    const knownError = couponApiError(error);
+    if (knownError) throw knownError;
     throw new ApiError(500, "Não foi possível validar o cupom.", "coupon_validation_failed");
   }
 

@@ -5,7 +5,7 @@ import { requireAccountContext } from "@/lib/auth/context";
 import { appUrl } from "@/lib/config/env";
 import { resolveStripePriceId } from "@/lib/domain/billing";
 import { checkoutInputSchema } from "@/lib/domain/schemas";
-import { cancelCouponReservation, linkCouponToCheckout, reserveBillingCoupon } from "@/lib/services/billing-coupons";
+import { activateAccessCoupon, cancelCouponReservation, couponBypassesPayment, linkCouponToCheckout, reserveBillingCoupon } from "@/lib/services/billing-coupons";
 import { stripe } from "@/lib/services/stripe";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 
@@ -18,6 +18,11 @@ export async function POST(request: Request) {
     const admin = createAdminSupabaseClient();
     const [{ data: subscription }, { data: billingProfile }] = await Promise.all([admin.from("subscriptions").select("id,stripe_customer_id,status,plan:plan_versions(stripe_price_id)").eq("account_id", context.accountId).single(), admin.from("billing_profiles").select("id").eq("account_id", context.accountId).maybeSingle()]);
     if (!subscription) throw new ApiError(404, "Assinatura não encontrada.");
+    const paymentBypass = input.couponCode ? await couponBypassesPayment(input.couponCode) : false;
+    if (paymentBypass) {
+      const activation = await activateAccessCoupon({ code: input.couponCode, accountId: context.accountId, subscriptionId: subscription.id });
+      return NextResponse.json({ data: { activated: true, redirectUrl: "/portal?acesso=ativado", accessExpiresAt: activation.accessExpiresAt } });
+    }
     if (!billingProfile) throw new ApiError(409, "Complete os dados de cobrança antes de assinar.", "billing_profile_required");
     let customerId = subscription.stripe_customer_id;
     if (!customerId) {

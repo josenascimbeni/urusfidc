@@ -17,6 +17,7 @@ test("ações e campos podem encolher sem causar rolagem horizontal", () => {
 
 test("assinatura vira uma coluna em telas pequenas", () => {
   assert.match(styles, /@media \(max-width:\s*620px\)[\s\S]*?\.live-subscription-gate\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/);
+  assert.match(styles, /@media \(max-width:\s*620px\)[\s\S]*?\.partner-access-form\s*\{[\s\S]*?grid-template-columns:\s*minmax\(0,\s*1fr\)/);
 });
 
 test("gestão de planos e cupons também se adapta à área útil do painel", () => {

@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   if (event.type === "checkout.session.completed") {
     const session = event.data.object as Stripe.Checkout.Session;
     const accountId = session.client_reference_id;
-    if (accountId) await admin.from("subscriptions").update({ stripe_customer_id: String(session.customer), stripe_subscription_id: String(session.subscription) }).eq("account_id", accountId);
+    if (accountId) await admin.from("subscriptions").update({ stripe_customer_id: String(session.customer), stripe_subscription_id: String(session.subscription), access_source: "stripe" }).eq("account_id", accountId);
     const redemptionId = session.metadata?.coupon_redemption_id;
     if (redemptionId) {
       const stripeSubscriptionId = typeof session.subscription === "string" ? session.subscription : session.subscription?.id;
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     if (allowedStatuses.has(subscription.status)) {
       const periodEnd = Math.max(...subscription.items.data.map((item) => item.current_period_end)); const periodStart = Math.min(...subscription.items.data.map((item) => item.current_period_start));
       const cycleStart = Number.isFinite(periodStart) ? new Date(periodStart * 1000).toISOString() : new Date().toISOString(); const cycleEnd = Number.isFinite(periodEnd) ? new Date(periodEnd * 1000).toISOString() : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-      const { data } = await admin.from("subscriptions").update({ status, stripe_subscription_id: subscription.id, cycle_start: cycleStart, cycle_end: cycleEnd, current_period_end: cycleEnd }).eq("stripe_customer_id", String(subscription.customer)).select("id,account_id,plan_version_id").maybeSingle();
+      const { data } = await admin.from("subscriptions").update({ status, access_source: "stripe", stripe_subscription_id: subscription.id, cycle_start: cycleStart, cycle_end: cycleEnd, current_period_end: cycleEnd }).eq("stripe_customer_id", String(subscription.customer)).select("id,account_id,plan_version_id").maybeSingle();
       if (data?.account_id) {
         await admin.from("customer_accounts").update({ status: subscription.status === "active" ? "active" : subscription.status === "past_due" ? "past_due" : subscription.status === "canceled" ? "cancelled" : "pending_subscription" }).eq("id", data.account_id);
         const { data: plan } = await admin.from("plan_versions").select("monthly_case_limit").eq("id", data.plan_version_id).single();

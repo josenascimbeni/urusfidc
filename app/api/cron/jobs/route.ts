@@ -13,6 +13,16 @@ function authorized(request: Request) {
 export async function GET(request: Request) {
   if (!authorized(request)) return NextResponse.json({ error: "unauthorized" }, { status: 401 });
   const admin = createAdminSupabaseClient(); const processed: string[] = [];
+  const now = new Date().toISOString();
+  const { data: expiredCouponSubscriptions } = await admin.from("subscriptions").select("id,account_id").eq("status", "active").eq("access_source", "coupon").lte("cycle_end", now).limit(100);
+  if (expiredCouponSubscriptions?.length) {
+    const subscriptionIds = expiredCouponSubscriptions.map((subscription) => subscription.id);
+    const accountIds = expiredCouponSubscriptions.map((subscription) => subscription.account_id);
+    await admin.from("subscriptions").update({ status: "cancelled" }).in("id", subscriptionIds).eq("access_source", "coupon");
+    await admin.from("customer_accounts").update({ status: "pending_subscription" }).in("id", accountIds);
+    await admin.from("audit_logs").insert(expiredCouponSubscriptions.map((subscription) => ({ account_id: subscription.account_id, action: "billing.access_coupon_expired", entity_type: "subscription", entity_id: subscription.id, safe_metadata: {} })));
+    processed.push(`access-coupons:${expiredCouponSubscriptions.length}`);
+  }
   const { data: review } = await admin.from("ai_reviews").select("id").eq("status", "queued").order("created_at").limit(1).maybeSingle();
   if (review) {
     await admin.from("ai_reviews").update({ status: "processing" }).eq("id", review.id).eq("status", "queued");

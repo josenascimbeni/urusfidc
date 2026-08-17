@@ -21,7 +21,7 @@ export async function requireAccountContext(): Promise<AccountContext> {
   const [{ data: profile }, { data: roleRow }, { data: subscription }] = await Promise.all([
     supabase.from("profiles").select("account_id").eq("user_id", authData.user.id).single(),
     supabase.from("user_roles").select("role").eq("user_id", authData.user.id).single(),
-    supabase.from("subscriptions").select("status").limit(1).maybeSingle(),
+    supabase.from("subscriptions").select("status,cycle_end,access_source").limit(1).maybeSingle(),
   ]);
 
   let role: "professional" | "admin" = roleRow?.role === "admin" ? "admin" : "professional";
@@ -35,7 +35,10 @@ export async function requireAccountContext(): Promise<AccountContext> {
   }
 
   if (!profile?.account_id) throw new ApiError(403, "A conta ainda não foi provisionada.", "account_not_ready");
-  return { user: authData.user, accountId: profile.account_id, role, subscriptionStatus: subscription?.status ?? null };
+  const promotionalAccessExpired = subscription?.status === "active"
+    && subscription.access_source === "coupon"
+    && new Date(subscription.cycle_end).getTime() <= Date.now();
+  return { user: authData.user, accountId: profile.account_id, role, subscriptionStatus: promotionalAccessExpired ? "expired" : subscription?.status ?? null };
 }
 
 export async function requireActiveSubscription() {
