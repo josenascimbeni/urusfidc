@@ -35,6 +35,7 @@ type DetailTab = "summary" | "matching" | "documents" | "journey";
 
 const EMPTY_OPERATION: OperationForm = { companyName: "", cnpj: "", segment: "", annualRevenue: 0, city: "", state: "", amount: 0, operationType: "", hasGuarantee: true, guaranteeValue: 0, guaranteeType: "", salesMethod: "", receiptMethod: "" };
 const EMPTY_JOURNEY: JourneyState = { sentToUrus: false, distributed: false, interested: false, meetingScheduled: false, committeeResult: "Pendente", proposalShared: false, commission: "Aguardando FIDC" };
+const WHATSAPP_URL = "https://wa.me/551131641239?text=Ol%C3%A1%21%20Quero%20saber%20mais%20sobre%20a%20assinatura%20Urus%20100.";
 
 function currency(value: number, compact = false) {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", notation: compact ? "compact" : "standard", maximumFractionDigits: compact ? 1 : 2 }).format(value / 100);
@@ -50,7 +51,7 @@ function Landing({ onAccess, onDemo }: { onAccess: () => void; onDemo: () => voi
       <div className="landing-scroll-progress" aria-hidden="true" />
       <header className="landing-header">
         <a className="landing-brand" href="#inicio" aria-label="Urus FIDC — início"><BrandLogo className="brand-logo--landing" priority /></a>
-        <nav aria-label="Navegação da página inicial"><a href="#plataforma">Plataforma</a><a href="#como-funciona">Como funciona</a><a href="#para-quem">Para quem</a><a href="#seguranca">Segurança</a></nav>
+        <nav aria-label="Navegação da página inicial"><a href="#plataforma">Plataforma</a><a href="#como-funciona">Como funciona</a><a href="#para-quem">Para quem</a><a href="#seguranca">Segurança</a><a href="#plano">Plano</a></nav>
         <button className="landing-access" onClick={onAccess}>Acessar plataforma <span aria-hidden="true">↗</span></button>
       </header>
 
@@ -133,6 +134,35 @@ function Landing({ onAccess, onDemo }: { onAccess: () => void; onDemo: () => voi
         <div className="security-copy"><p className="landing-kicker"><span /> SEGURANÇA E GOVERNANÇA</p><h2>Confiança faz parte<br/><span>da arquitetura.</span></h2><p>A plataforma adota isolamento individual, menor privilégio, rastreabilidade e proteção do ciclo de vida dos documentos.</p><div className="security-principles"><article><span>PRIVACY</span><strong>LGPD por concepção</strong><p>Minimização, finalidade, retenção e descarte definidos desde o início.</p></article><article><span>LOGIC</span><strong>Decisões explicáveis</strong><p>Regras objetivas e critérios visíveis, sem uma caixa-preta comercial.</p></article><article><span>ACCESS</span><strong>Isolamento de dados</strong><p>Cada profissional acessa somente suas próprias empresas e operações.</p></article><article><span>AUDIT</span><strong>Trilha de auditoria</strong><p>Acessos, mudanças e eventos relevantes registrados para controle.</p></article></div></div>
       </section>
 
+      <section className="landing-plan" id="plano">
+        <div className="plan-intro">
+          <p className="landing-kicker dark"><span /> PLANO PARA ORIGINADORES</p>
+          <h2>Comece com clareza.<br/><span>Cresça operação por operação.</span></h2>
+          <p>Uma assinatura objetiva para quem precisa organizar oportunidades, encontrar os FIDCs aderentes e acompanhar cada negócio até o resultado.</p>
+          <div className="plan-assurance"><span>COBRANÇA RECORRENTE</span><p>Renovação mensal pelo Stripe. Você pode gerenciar ou cancelar a assinatura pelo portal de cobrança.</p></div>
+        </div>
+        <article className="plan-contract" aria-labelledby="urus-100-title">
+          <header><span>URUS / PLANO ATIVO</span><b>ASSINATURA MENSAL</b></header>
+          <div className="plan-contract-main">
+            <div><small>PLANO</small><h3 id="urus-100-title">Urus 100</h3></div>
+            <div className="plan-contract-price"><small>POR MÊS</small><p><sup>R$</sup><strong>99</strong><span>,00</span></p></div>
+          </div>
+          <div className="plan-contract-metrics">
+            <div><span>100</span><small>novos casos por ciclo</small></div>
+            <div><span>15</span><small>FIDCs ativos no matching</small></div>
+            <div><span>1</span><small>jornada centralizada</small></div>
+          </div>
+          <ul>
+            <li><span>01</span>Matching com todos os FIDCs ativos</li>
+            <li><span>02</span>Reprocessamentos sem consumo da franquia</li>
+            <li><span>03</span>Checklist, relatórios e acompanhamento</li>
+            <li><span>04</span>Gestão da assinatura pelo portal Stripe</li>
+          </ul>
+          <a className="landing-primary plan-contract-action" href="/cadastro">Começar agora <span aria-hidden="true">→</span></a>
+          <small className="plan-contract-note">R$ 99,00 cobrados mensalmente até o cancelamento. Condições finais confirmadas no checkout.</small>
+        </article>
+      </section>
+
       <section className="landing-final-cta">
         <p className="landing-kicker"><span /> PRONTO PARA ENCONTRAR O MATCH?</p>
         <h2>Leve uma operação.<br/><span>Encontre o capital certo.</span></h2>
@@ -142,10 +172,15 @@ function Landing({ onAccess, onDemo }: { onAccess: () => void; onDemo: () => voi
 
       <footer className="landing-footer">
         <div><a className="landing-brand" href="#inicio" aria-label="Urus FIDC — início"><BrandLogo className="brand-logo--footer" /></a><p>O matching inteligente entre empresas e FIDCs.</p></div>
-        <div><span>PLATAFORMA</span><a href="#plataforma">Solução</a><a href="#como-funciona">Como funciona</a><button onClick={onAccess}>Acessar portal</button></div>
+        <div><span>PLATAFORMA</span><a href="#plataforma">Solução</a><a href="#como-funciona">Como funciona</a><a href="#plano">Plano Urus 100</a><button onClick={onAccess}>Acessar portal</button></div>
         <div><span>GOVERNANÇA</span><a href="#seguranca">Segurança</a><a href="/aviso-de-privacidade">Aviso de Privacidade</a><a href="/termos-de-uso">Termos de Uso</a></div>
         <div className="footer-note"><p>© 2026 Urus FIDC</p><p>Tecnologia para originação de crédito</p></div>
       </footer>
+
+      <a className="landing-whatsapp" href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" aria-label="Falar com a Urus FIDC pelo WhatsApp no número +55 11 3164-1239">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16.04 3.2A12.78 12.78 0 0 0 5.1 22.58L3.2 28.8l6.38-1.84A12.8 12.8 0 1 0 16.04 3.2Zm0 2.16a10.62 10.62 0 1 1-5.43 19.75l-.77-.46-3.78 1.1 1.12-3.68-.5-.8a10.62 10.62 0 0 1 9.36-15.91Zm-4.47 5.28c-.24 0-.62.1-.94.45-.32.35-1.24 1.2-1.24 2.94 0 1.73 1.27 3.4 1.44 3.64.18.23 2.49 3.8 6.03 5.33 2.99 1.29 3.6 1.03 4.25.97.65-.06 2.1-.86 2.4-1.68.29-.83.29-1.53.2-1.68-.08-.14-.32-.23-.67-.4-.35-.18-2.1-1.04-2.42-1.16-.32-.12-.56-.18-.8.17-.23.36-.91 1.16-1.12 1.4-.2.23-.41.26-.76.08-.36-.17-1.5-.55-2.85-1.76a10.7 10.7 0 0 1-1.98-2.46c-.2-.35-.02-.54.16-.72.16-.16.35-.41.53-.62.17-.2.23-.35.35-.59.12-.23.06-.44-.03-.61-.09-.18-.8-1.92-1.09-2.63-.28-.69-.57-.6-.8-.61h-.67Z"/></svg>
+        <span>Fale com a Urus</span>
+      </a>
     </main>
   );
 }

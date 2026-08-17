@@ -472,12 +472,12 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
 .landing-numbers strong { color: #eef6ff; font-size: clamp(30px, 3.3vw, 50px); line-height: 1; letter-spacing: -.04em; font-weight: 610; }
 .landing-numbers span { color: #6f8299; font-family: "SFMono-Regular", Consolas, monospace; font-size: 9px; letter-spacing: .06em; text-transform: uppercase; }
 
-.landing-platform, .landing-process, .landing-audience, .landing-security { padding: clamp(96px, 10vw, 150px) var(--landing-gutter); }
+.landing-platform, .landing-process, .landing-audience, .landing-security, .landing-plan { padding: clamp(96px, 10vw, 150px) var(--landing-gutter); }
 .landing-platform { position: relative; color: var(--landing-ink); background: #edf2f6; }
 .landing-platform::before { content: "URUS / CREDIT INTELLIGENCE SYSTEM"; position: absolute; top: 42px; right: var(--landing-gutter); color: #8795a6; font-family: "SFMono-Regular", Consolas, monospace; font-size: 8px; letter-spacing: .15em; }
 .landing-section-heading { max-width: 1120px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr); column-gap: 70px; align-items: end; margin-bottom: 64px; }
 .landing-section-heading .landing-kicker { grid-column: 1 / -1; }
-.landing-section-heading h2, .process-intro h2, .audience-copy h2, .security-copy h2, .landing-final-cta h2 { margin: 0; font-size: clamp(43px, 5vw, 74px); line-height: .98; letter-spacing: -.052em; font-weight: 610; }
+.landing-section-heading h2, .process-intro h2, .audience-copy h2, .security-copy h2, .plan-intro h2, .landing-final-cta h2 { margin: 0; font-size: clamp(43px, 5vw, 74px); line-height: .98; letter-spacing: -.052em; font-weight: 610; }
 .landing-section-heading h2 span, .audience-copy h2 span { color: #326b8b; }
 .landing-section-heading > p:last-child { margin: 0 0 4px; color: #657286; font-size: 15px; line-height: 1.7; }
 .platform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid #cbd4dc; background: #cbd4dc; }
@@ -570,6 +570,38 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
 .security-principles strong { font-size: 16px; font-weight: 590; }
 .security-principles p { margin: 0; color: #75869c; font-size: 10px; line-height: 1.55; }
 
+.landing-plan { display: grid; grid-template-columns: minmax(0, .86fr) minmax(480px, 1.14fr); align-items: center; gap: clamp(56px, 8vw, 130px); color: var(--landing-ink); background: #edf2f6; }
+.plan-intro h2 span { color: #326b8b; }
+.plan-intro > p:not(.landing-kicker) { max-width: 590px; margin: 28px 0 0; color: #657286; font-size: 15px; line-height: 1.72; }
+.plan-assurance { max-width: 580px; display: grid; grid-template-columns: 145px 1fr; gap: 24px; margin-top: 46px; padding-top: 22px; border-top: 1px solid #c5d0d9; }
+.plan-assurance span { color: #39728f; font-family: "SFMono-Regular", Consolas, monospace; font-size: 8px; line-height: 1.5; letter-spacing: .1em; }
+.plan-assurance p { margin: 0; color: #718095; font-size: 11px; line-height: 1.62; }
+.plan-contract { position: relative; overflow: hidden; border: 1px solid #223854; border-radius: 12px; color: #edf6ff; background: #0a1728; box-shadow: 0 34px 80px #1428422b; }
+.plan-contract::before { content: ""; position: absolute; top: -170px; right: -180px; width: 390px; aspect-ratio: 1; border: 1px solid #70d7ff20; border-radius: 50%; box-shadow: 0 0 0 48px #70d7ff08, 0 0 0 96px #70d7ff05; pointer-events: none; }
+.plan-contract > header { min-height: 48px; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 0 24px; border-bottom: 1px solid #ffffff12; color: #6f849c; font-family: "SFMono-Regular", Consolas, monospace; font-size: 8px; letter-spacing: .09em; }
+.plan-contract > header b { color: var(--landing-gold); font-weight: 560; }
+.plan-contract-main { position: relative; display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 30px; padding: 38px 34px 32px; }
+.plan-contract small { color: #698099; font-family: "SFMono-Regular", Consolas, monospace; font-size: 7px; letter-spacing: .1em; }
+.plan-contract h3 { margin: 9px 0 0; color: white; font-size: clamp(36px, 4vw, 58px); line-height: 1; letter-spacing: -.045em; font-weight: 610; }
+.plan-contract-price { text-align: right; }
+.plan-contract-price p { display: flex; align-items: flex-start; justify-content: flex-end; margin: 7px 0 0; line-height: .8; }
+.plan-contract-price sup { margin: 4px 7px 0 0; color: var(--landing-gold); font-size: 14px; font-weight: 650; }
+.plan-contract-price strong { color: var(--landing-gold); font-size: clamp(58px, 6vw, 88px); letter-spacing: -.075em; font-weight: 620; }
+.plan-contract-price span { margin: 7px 0 0 4px; color: #d6b978b8; font-size: 17px; }
+.plan-contract-metrics { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid #ffffff12; background: #ffffff05; }
+.plan-contract-metrics div { min-height: 92px; display: grid; align-content: center; gap: 6px; padding: 18px 22px; border-right: 1px solid #ffffff12; }
+.plan-contract-metrics div:last-child { border-right: 0; }
+.plan-contract-metrics span { color: var(--landing-cyan); font-size: 25px; font-weight: 620; }
+.plan-contract-metrics small { line-height: 1.45; }
+.plan-contract ul { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 0; padding: 24px 34px 12px; list-style: none; }
+.plan-contract li { min-height: 48px; display: flex; align-items: center; gap: 11px; padding-right: 20px; color: #a0afc1; font-size: 10px; line-height: 1.45; }
+.plan-contract li span { color: #53718d; font-family: "SFMono-Regular", Consolas, monospace; font-size: 7px; }
+.plan-contract-action { width: calc(100% - 68px); margin: 14px 34px 0; text-decoration: none; }
+.plan-contract-note { display: block; padding: 14px 34px 28px; line-height: 1.55; }
+.landing-whatsapp { position: fixed; z-index: 28; right: 24px; bottom: 24px; min-height: 52px; display: inline-flex; align-items: center; gap: 10px; padding: 0 17px 0 13px; border: 1px solid #70e4a578; border-radius: 28px; color: #eafff2; background: #08783ff0; box-shadow: 0 15px 42px #0007, 0 0 0 4px #0ca55a14; backdrop-filter: blur(12px); text-decoration: none; font-size: 11px; font-weight: 680; transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.landing-whatsapp svg { width: 27px; height: 27px; fill: currentColor; }
+.landing-whatsapp:hover { color: white; background: #09964e; box-shadow: 0 18px 48px #0008, 0 0 0 5px #1dd56f20; transform: translateY(-2px); }
+
 .landing-final-cta { position: relative; min-height: 560px; display: grid; justify-items: center; align-content: center; padding: 100px 24px; overflow: hidden; text-align: center; color: white; background: #0b1828; }
 .landing-final-cta::before { content: ""; position: absolute; width: min(92vw, 1050px); aspect-ratio: 1.8; border: 1px solid #70d7ff20; border-radius: 50%; box-shadow: 0 0 0 72px #70d7ff08, 0 0 0 144px #70d7ff05; animation: signal-breathe 4s ease-in-out infinite; }
 .landing-final-cta::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: linear-gradient(transparent, #70d7ff77, transparent); }
@@ -607,7 +639,7 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
   .landing-hero::after { display: none; }
   .landing-section-heading { grid-template-columns: 1fr; gap: 24px; }
   .landing-section-heading > p:last-child { max-width: 640px; }
-  .landing-process, .landing-security { grid-template-columns: 1fr; }
+  .landing-process, .landing-security, .landing-plan { grid-template-columns: 1fr; }
   .process-intro { position: static; }
   .security-orbit { width: min(62vw, 460px); }
   .security-copy { max-width: 840px; }
@@ -646,9 +678,9 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
   .landing-numbers { grid-template-columns: 1fr 1fr; padding-inline: 20px; }
   .landing-numbers > div { min-height: 120px; padding: 20px 15px; }
   .landing-numbers > div:nth-child(3) { border-left: 1px solid #ffffff10; }
-  .landing-platform, .landing-process, .landing-audience, .landing-security { padding: 88px 20px; }
+  .landing-platform, .landing-process, .landing-audience, .landing-security, .landing-plan { padding: 88px 20px; }
   .landing-platform::before { top: 26px; right: 20px; }
-  .landing-section-heading h2, .process-intro h2, .audience-copy h2, .security-copy h2, .landing-final-cta h2 { font-size: clamp(39px, 11.5vw, 52px); }
+  .landing-section-heading h2, .process-intro h2, .audience-copy h2, .security-copy h2, .plan-intro h2, .landing-final-cta h2 { font-size: clamp(39px, 11.5vw, 52px); }
   .platform-grid, .audience-grid, .security-principles { grid-template-columns: 1fr; }
   .platform-card { min-height: 310px; }
   .feature-symbol { margin: 38px 0 28px; }
@@ -659,6 +691,18 @@ button:disabled { cursor: not-allowed; opacity: .48; transform: none !important;
   .security-orbit { width: min(86vw, 390px); }
   .security-brand-mark { width: 92px; height: 92px; }
   .security-telemetry { gap: 12px; }
+  .plan-assurance { grid-template-columns: 1fr; gap: 10px; }
+  .plan-contract-main { grid-template-columns: 1fr; padding: 30px 24px 26px; }
+  .plan-contract-price { text-align: left; }
+  .plan-contract-price p { justify-content: flex-start; }
+  .plan-contract-metrics { grid-template-columns: 1fr; }
+  .plan-contract-metrics div { min-height: 74px; grid-template-columns: 62px 1fr; align-items: center; border-right: 0; border-bottom: 1px solid #ffffff12; }
+  .plan-contract-metrics div:last-child { border-bottom: 0; }
+  .plan-contract ul { grid-template-columns: 1fr; padding: 22px 24px 10px; }
+  .plan-contract-action { width: calc(100% - 48px); margin-inline: 24px; }
+  .plan-contract-note { padding: 14px 24px 24px; }
+  .landing-whatsapp { right: 16px; bottom: 16px; width: 52px; padding: 0; justify-content: center; }
+  .landing-whatsapp span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .landing-final-cta { min-height: 520px; padding-inline: 20px; }
   .landing-footer { grid-template-columns: 1fr 1fr; gap: 40px 24px; padding: 58px 20px 34px; }
   .landing-footer > div:first-child, .landing-footer .footer-note { grid-column: 1 / -1; }
