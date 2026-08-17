@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { BrandLogo } from "@/components/brand-logo";
 import { SparklesCore } from "@/components/ui/sparkles";
 import {
   BRAZIL_STATES,
@@ -42,90 +44,107 @@ function initials(name: string) {
   return name.split(" ").slice(0, 2).map((word) => word.charAt(0)).join("").toUpperCase();
 }
 
-function Landing({ onAccess }: { onAccess: () => void }) {
+function Landing({ onAccess, onDemo }: { onAccess: () => void; onDemo: () => void }) {
   return (
     <main className="landing-shell">
+      <div className="landing-scroll-progress" aria-hidden="true" />
       <header className="landing-header">
-        <a className="landing-brand" href="#inicio" aria-label="Urus FIDC — início"><span className="brand-mark">U</span><span>URUS <b>FIDC</b></span></a>
+        <a className="landing-brand" href="#inicio" aria-label="Urus FIDC — início"><BrandLogo className="brand-logo--landing" priority /></a>
         <nav aria-label="Navegação da página inicial"><a href="#plataforma">Plataforma</a><a href="#como-funciona">Como funciona</a><a href="#para-quem">Para quem</a><a href="#seguranca">Segurança</a></nav>
-        <button className="landing-access" onClick={onAccess}>Acessar plataforma <span>↗</span></button>
+        <button className="landing-access" onClick={onAccess}>Acessar plataforma <span aria-hidden="true">↗</span></button>
       </header>
+
       <section className="landing-hero" id="inicio">
         <div className="hero-sparkles" aria-hidden="true">
-          <SparklesCore id="urus-premium-sparkles" background="transparent" minSize={0.35} maxSize={1.15} particleDensity={180} particleColor="#d8c28d" speed={0.55} className="h-full w-full" />
+          <SparklesCore id="urus-signal-field" background="transparent" minSize={0.3} maxSize={1} particleDensity={95} particleColor="#8ad8ff" speed={0.45} className="h-full w-full" />
         </div>
-        <div className="hero-aura" aria-hidden="true" />
         <div className="hero-copy">
-          <p className="landing-kicker"><span /> CURADORIA, TECNOLOGIA E CRÉDITO</p>
-          <h1>Crédito certo.<br/><em>No FIDC certo.</em></h1>
-          <p className="hero-lead">Uma plataforma exclusiva para qualificar operações financeiras, encontrar os fundos mais aderentes e conduzir toda a jornada com precisão.</p>
-          <div className="hero-actions"><button className="landing-primary" onClick={onAccess}>Encontrar o match <span>→</span></button><a href="#plataforma">Conhecer a plataforma <span>↓</span></a></div>
-          <div className="hero-signature" aria-hidden="true"><i/><span>Matching inteligente de crédito</span><i/></div>
+          <p className="landing-kicker"><span /> MATCHING FINANCEIRO EM TEMPO REAL</p>
+          <h1>Crédito certo.<br/><span>No FIDC certo.</span></h1>
+          <p className="hero-lead">Qualifique operações, compare critérios e conduza cada oportunidade até o fundo mais aderente — com decisões claras em todo o percurso.</p>
+          <div className="hero-actions"><button className="landing-primary" onClick={onAccess}>Encontrar o match <span aria-hidden="true">→</span></button><a href="#plataforma">Explorar a plataforma <span aria-hidden="true">↓</span></a></div>
+          <div className="hero-status" aria-label="Status da plataforma"><span><i /> Motor de matching online</span><span>Critérios explicáveis</span><span>Dados isolados</span></div>
         </div>
-        <div className="hero-proof" aria-label="Diferenciais da Urus FIDC">
-          <article><span>01</span><strong>Curadoria especializada</strong><small>Perfis e critérios de FIDCs organizados pela Urus.</small></article>
-          <article><span>02</span><strong>Decisão explicável</strong><small>Score, aderências e divergências visíveis em cada match.</small></article>
-          <article><span>03</span><strong>Jornada integral</strong><small>Da originação ao comitê, proposta e comissão.</small></article>
+        <div className="matching-console" aria-label="Demonstração visual do motor de matching">
+          <div className="console-topbar"><span>MATCHING ENGINE / LIVE</span><i aria-hidden="true"/><span>LATÊNCIA 1.8S</span></div>
+          <div className="signal-map" aria-hidden="true">
+            <svg viewBox="0 0 640 390" preserveAspectRatio="none">
+              <path className="signal-path path-a" d="M108 198 C210 198 205 90 320 90 S432 70 530 70" />
+              <path className="signal-path path-b" d="M108 198 C220 198 220 198 320 198 S430 198 530 198" />
+              <path className="signal-path path-c" d="M108 198 C210 198 205 310 320 310 S432 326 530 326" />
+              <circle className="signal-pulse pulse-a" r="4" cx="0" cy="0" />
+              <circle className="signal-pulse pulse-b" r="4" cx="0" cy="0" />
+              <circle className="signal-pulse pulse-c" r="4" cx="0" cy="0" />
+            </svg>
+            <div className="operation-node"><small>OPERAÇÃO</small><strong>R$ 2,4 mi</strong><span>Capital de giro</span></div>
+            <div className="engine-node"><span className="brand-mark-crop"><BrandLogo className="brand-logo--mark" /></span><small>ANALISANDO</small></div>
+            <div className="match-node match-node-a"><span>91%</span><div><strong>FIDC A</strong><small>ALTA ADERÊNCIA</small></div></div>
+            <div className="match-node match-node-b"><span>84%</span><div><strong>FIDC B</strong><small>ADERENTE</small></div></div>
+            <div className="match-node match-node-c"><span>76%</span><div><strong>FIDC C</strong><small>EM ANÁLISE</small></div></div>
+          </div>
+          <div className="console-footer"><span><i /> 15 fundos verificados</span><span>4 critérios cruzados</span><strong>3 matches encontrados</strong></div>
         </div>
-        <div className="hero-foot"><span>QUALIFICAÇÃO</span><i/><span>MATCHING EXPLICÁVEL</span><i/><span>JORNADA PONTA A PONTA</span></div>
       </section>
 
       <section className="landing-numbers" aria-label="Números da plataforma">
-        <div><strong>15</strong><span>FIDCs mapeados<br/>no protótipo</span></div>
-        <div><strong>20+</strong><span>modalidades de<br/>operações</span></div>
-        <div><strong>Brasil</strong><span>cobertura nacional<br/>e regional</span></div>
-        <div><strong>100%</strong><span>matching baseado<br/>em regras explicáveis</span></div>
+        <div><strong>15</strong><span>FIDCs mapeados</span></div>
+        <div><strong>20+</strong><span>modalidades de operação</span></div>
+        <div><strong>27</strong><span>unidades federativas</span></div>
+        <div><strong>100%</strong><span>regras explicáveis</span></div>
       </section>
 
       <section className="landing-platform" id="plataforma">
         <div className="landing-section-heading">
           <p className="landing-kicker dark"><span /> UMA PLATAFORMA. TODA A JORNADA.</p>
-          <h2>Da oportunidade ao crédito,<br/><em>sem perder o fio da operação.</em></h2>
+          <h2>Da oportunidade ao crédito,<br/><span>sem perder o fio da operação.</span></h2>
           <p>A Urus FIDC organiza dados, documentos e decisões em um único fluxo, dando clareza para quem origina e eficiência para quem analisa.</p>
         </div>
         <div className="platform-grid">
-          <article className="platform-card featured-card"><span className="feature-number">01</span><div className="feature-symbol">◎</div><h3>Qualificação estruturada</h3><p>Perfil da empresa, operação, garantias, recebíveis e faturamento organizados desde a origem.</p><b>Dados que chegam prontos para análise</b></article>
-          <article className="platform-card"><span className="feature-number">02</span><div className="feature-symbol">◇</div><h3>Matching inteligente</h3><p>Compatibilidade calculada por faturamento, segmento, modalidade e região de atuação.</p><b>Score, critérios e motivos visíveis</b></article>
-          <article className="platform-card"><span className="feature-number">03</span><div className="feature-symbol">▱</div><h3>Documentos sob controle</h3><p>Checklist por exercício e por sócio, com pendências identificadas antes da distribuição.</p><b>Menos retrabalho na originação</b></article>
-          <article className="platform-card"><span className="feature-number">04</span><div className="feature-symbol">↗</div><h3>Jornada acompanhada</h3><p>Interesse, reunião, comitê, proposta, comissão e repasse em uma linha do tempo única.</p><b>Visibilidade ponta a ponta</b></article>
+          <article className="platform-card featured-card"><span className="feature-label">INPUT / QUALIFICAÇÃO</span><div className="feature-symbol"><i/><i/><i/></div><h3>Dados prontos para análise</h3><p>Perfil da empresa, operação, garantias, recebíveis e faturamento organizados desde a origem.</p><b>Menos ruído na entrada</b></article>
+          <article className="platform-card"><span className="feature-label">ENGINE / MATCHING</span><div className="feature-symbol matching-symbol"><i/><i/><i/></div><h3>Aderência calculada</h3><p>Compatibilidade por faturamento, segmento, modalidade e região de atuação.</p><b>Score e critérios visíveis</b></article>
+          <article className="platform-card"><span className="feature-label">VERIFY / DOCUMENTOS</span><div className="feature-symbol document-symbol"><i/><i/><i/></div><h3>Documentos sob controle</h3><p>Checklist por exercício e por sócio, com pendências identificadas antes da distribuição.</p><b>Validação antes do envio</b></article>
+          <article className="platform-card"><span className="feature-label">TRACK / JORNADA</span><div className="feature-symbol track-symbol"><i/><i/><i/></div><h3>Operação acompanhada</h3><p>Interesse, reunião, comitê, proposta, comissão e repasse em uma linha do tempo única.</p><b>Visibilidade ponta a ponta</b></article>
         </div>
       </section>
 
       <section className="landing-process" id="como-funciona">
-        <div className="process-intro"><p className="landing-kicker"><span /> COMO FUNCIONA</p><h2>Um fluxo coordenado.<br/><em>Cada etapa no seu tempo.</em></h2><p>O sistema transforma uma indicação comercial em uma operação qualificada, pronta para encontrar capital aderente.</p><button className="landing-primary" onClick={onAccess}>Conhecer por dentro <span>→</span></button></div>
+        <div className="process-intro"><p className="landing-kicker"><span /> COMO FUNCIONA</p><h2>Um fluxo coordenado.<br/><span>Cada etapa visível.</span></h2><p>O sistema transforma uma indicação comercial em uma operação qualificada, pronta para encontrar capital aderente.</p><button className="landing-primary" onClick={onAccess}>Conhecer por dentro <span aria-hidden="true">→</span></button></div>
         <ol className="process-steps">
-          <li><span>01</span><div><strong>Cadastre a empresa</strong><p>O profissional informa o perfil financeiro e a necessidade de crédito.</p></div><b>↗</b></li>
-          <li><span>02</span><div><strong>Encontre os FIDCs</strong><p>As regras comparam o perfil da operação com cada fundo ativo.</p></div><b>↗</b></li>
-          <li><span>03</span><div><strong>Complete o checklist</strong><p>A distribuição é liberada somente após a validação documental.</p></div><b>↗</b></li>
-          <li><span>04</span><div><strong>Acompanhe até o resultado</strong><p>Reunião, comitê, proposta e comissão ficam registrados na jornada.</p></div><b>✓</b></li>
+          <li><span>01</span><div><small>INPUT</small><strong>Cadastre a empresa</strong><p>Informe o perfil financeiro e a necessidade de crédito.</p></div><b>↗</b></li>
+          <li><span>02</span><div><small>MATCH</small><strong>Encontre os FIDCs</strong><p>As regras comparam a operação com cada fundo ativo.</p></div><b>↗</b></li>
+          <li><span>03</span><div><small>VERIFY</small><strong>Complete o checklist</strong><p>A distribuição avança após a validação documental.</p></div><b>↗</b></li>
+          <li><span>04</span><div><small>TRACK</small><strong>Acompanhe até o resultado</strong><p>Reunião, comitê, proposta e comissão ficam registrados.</p></div><b>✓</b></li>
         </ol>
       </section>
 
       <section className="landing-audience" id="para-quem">
-        <div className="audience-copy"><p className="landing-kicker dark"><span /> FEITA PARA QUEM ORIGINA NEGÓCIOS</p><h2>Mais acesso ao crédito.<br/><em>Mais valor para a relação.</em></h2></div>
+        <div className="audience-copy"><p className="landing-kicker dark"><span /> FEITA PARA QUEM ORIGINA NEGÓCIOS</p><h2>Uma rede. Diferentes<br/><span>formas de gerar crédito.</span></h2></div>
         <div className="audience-grid">
-          {["Assessores de investimentos", "Gerentes comerciais de bancos", "Gerentes comerciais de FIDCs", "Consultores de captação", "Consultores financeiros", "Contadores"].map((audience, index) => <article key={audience}><span>{String(index + 1).padStart(2, "0")}</span><strong>{audience}</strong><b>→</b></article>)}
+          {["Assessores de investimentos", "Ex-bancários", "Correspondentes bancários", "Brokers/Intermediários", "Consultoria", "Contadores"].map((audience) => <article key={audience}><i aria-hidden="true"/><strong>{audience}</strong><b>→</b></article>)}
         </div>
-        <div className="audience-statement"><span>“</span><p>Transforme cada indicação em uma operação estruturada, rastreável e conectada aos FIDCs certos.</p></div>
+        <div className="audience-statement"><span>CONEXÃO DE PONTA A PONTA</span><p>Transforme cada indicação em uma operação estruturada, rastreável e conectada aos FIDCs certos.</p></div>
       </section>
 
       <section className="landing-security" id="seguranca">
-        <div className="security-orbit" aria-hidden="true"><span/><span/><span/><div>U</div></div>
-        <div className="security-copy"><p className="landing-kicker"><span /> SEGURANÇA E GOVERNANÇA</p><h2>Confiança não é uma etapa.<br/><em>É parte da arquitetura.</em></h2><p>A versão de produção será construída com isolamento individual, menor privilégio, rastreabilidade e proteção do ciclo de vida dos documentos.</p><div className="security-principles"><article><span>01</span><strong>LGPD por concepção</strong><p>Minimização, finalidade, retenção e descarte definidos desde o início.</p></article><article><span>02</span><strong>Decisões explicáveis</strong><p>Regras objetivas e critérios visíveis, sem uma caixa-preta comercial.</p></article><article><span>03</span><strong>Isolamento de dados</strong><p>Cada profissional acessa somente suas próprias empresas e operações.</p></article><article><span>04</span><strong>Trilha de auditoria</strong><p>Acessos, mudanças e eventos relevantes registrados para controle.</p></article></div></div>
+        <div className="security-visual" aria-hidden="true">
+          <div className="security-orbit"><span/><span/><span/><div className="security-brand-mark"><BrandLogo className="brand-logo--security-mark" /></div></div>
+          <div className="security-telemetry"><span>ENCRYPTED</span><span>ISOLATED</span><span>AUDITABLE</span></div>
+        </div>
+        <div className="security-copy"><p className="landing-kicker"><span /> SEGURANÇA E GOVERNANÇA</p><h2>Confiança faz parte<br/><span>da arquitetura.</span></h2><p>A plataforma adota isolamento individual, menor privilégio, rastreabilidade e proteção do ciclo de vida dos documentos.</p><div className="security-principles"><article><span>PRIVACY</span><strong>LGPD por concepção</strong><p>Minimização, finalidade, retenção e descarte definidos desde o início.</p></article><article><span>LOGIC</span><strong>Decisões explicáveis</strong><p>Regras objetivas e critérios visíveis, sem uma caixa-preta comercial.</p></article><article><span>ACCESS</span><strong>Isolamento de dados</strong><p>Cada profissional acessa somente suas próprias empresas e operações.</p></article><article><span>AUDIT</span><strong>Trilha de auditoria</strong><p>Acessos, mudanças e eventos relevantes registrados para controle.</p></article></div></div>
       </section>
 
       <section className="landing-final-cta">
-        <p className="landing-kicker dark"><span /> PRONTO PARA ENCONTRAR O MATCH?</p>
-        <h2>Leve uma operação.<br/><em>Encontre o capital certo.</em></h2>
-        <button className="landing-primary" onClick={onAccess}>Acessar demonstração <span>→</span></button>
+        <p className="landing-kicker"><span /> PRONTO PARA ENCONTRAR O MATCH?</p>
+        <h2>Leve uma operação.<br/><span>Encontre o capital certo.</span></h2>
+        <button className="landing-primary" onClick={onDemo}>Acessar demonstração <span aria-hidden="true">→</span></button>
         <small>Ambiente mockado · Não utilize dados reais</small>
       </section>
 
       <footer className="landing-footer">
-        <div><a className="landing-brand" href="#inicio"><span className="brand-mark">U</span><span>URUS <b>FIDC</b></span></a><p>O matching inteligente entre empresas e FIDCs.</p></div>
+        <div><a className="landing-brand" href="#inicio" aria-label="Urus FIDC — início"><BrandLogo className="brand-logo--footer" /></a><p>O matching inteligente entre empresas e FIDCs.</p></div>
         <div><span>PLATAFORMA</span><a href="#plataforma">Solução</a><a href="#como-funciona">Como funciona</a><button onClick={onAccess}>Acessar portal</button></div>
-        <div><span>GOVERNANÇA</span><a href="#seguranca">Segurança</a><a href="#seguranca">LGPD</a><a href="#seguranca">Matching explicável</a></div>
-        <div className="footer-note"><p>© 2026 Urus FIDC</p><p>Protótipo para validação</p></div>
+        <div><span>GOVERNANÇA</span><a href="#seguranca">Segurança</a><a href="/aviso-de-privacidade">Aviso de Privacidade</a><a href="/termos-de-uso">Termos de Uso</a></div>
+        <div className="footer-note"><p>© 2026 Urus FIDC</p><p>Tecnologia para originação de crédito</p></div>
       </footer>
     </main>
   );
@@ -135,7 +154,7 @@ function Login({ onLogin, onBack }: { onLogin: (user: User) => void; onBack: () 
   return (
     <main className="login-shell">
       <section className="login-brand-panel">
-        <div className="login-brand"><span className="brand-mark large">U</span><span>URUS <b>FIDC</b></span></div>
+        <div className="login-brand"><BrandLogo className="brand-logo--auth" priority /></div>
         <div className="login-message"><p className="eyebrow light">CRÉDITO QUE ENCONTRA O CAMINHO CERTO</p><h1>O matching inteligente entre empresas e FIDCs.</h1><p>Qualifique operações, encontre parceiros aderentes e acompanhe cada etapa com transparência.</p></div>
         <div className="login-trust"><span>● Ambiente demonstrativo</span><span>LGPD por concepção</span><span>Decisões explicáveis</span></div>
       </section>
@@ -160,6 +179,9 @@ function Login({ onLogin, onBack }: { onLogin: (user: User) => void; onBack: () 
 }
 
 export default function Home() {
+  const pathname = usePathname();
+  const router = useRouter();
+  const isDemoRoute = pathname.startsWith("/demo");
   const [entry, setEntry] = useState<"home" | "login">("home");
   const [session, setSession] = useState<User | null>(null);
   const [view, setView] = useState<View>("dashboard");
@@ -460,7 +482,7 @@ export default function Home() {
     notify("Demonstração restaurada.");
   }
 
-  if (!session && entry === "home") return <Landing onAccess={() => setEntry("login")} />;
+  if (!session && entry === "home") return <Landing onAccess={() => isDemoRoute ? setEntry("login") : router.push("/entrar")} onDemo={() => isDemoRoute ? setEntry("login") : router.push("/demo")} />;
   if (!session) return <Login onBack={() => setEntry("home")} onLogin={(user) => { setSession(user); setView(user.role === "admin" ? "fidcs" : "dashboard"); }} />;
 
   const professionalNav: { id: View; label: string; icon: string }[] = [
@@ -479,7 +501,7 @@ export default function Home() {
     <main className="app-shell">
       {toast && <div className="toast" role="status"><span>✓</span>{toast}</div>}
       <aside className="sidebar">
-        <div className="brand"><span className="brand-mark">U</span><span>URUS <b>FIDC</b></span></div>
+        <div className="brand"><BrandLogo className="brand-logo--sidebar" priority /></div>
         <div className="role-chip">{session.role === "admin" ? "ADMINISTRAÇÃO" : "ÁREA DO PROFISSIONAL"}</div>
         <nav className="nav-list" aria-label="Navegação principal">
           {nav.map((item) => <button key={item.id} className={view === item.id || (item.id === "operations" && ["new-operation", "operation-detail"].includes(view)) ? "nav-item active" : "nav-item"} onClick={() => navigate(item.id)}><span>{item.icon}</span>{item.label}{item.id === "operations" && <span className="nav-count">{userOperations.length}</span>}</button>)}

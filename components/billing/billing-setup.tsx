@@ -1,0 +1,12 @@
+"use client";
+
+import { useState } from "react";
+import { BRAZIL_STATES } from "@/app/mock-data";
+import { BillingActions } from "@/components/billing/billing-actions";
+
+export function BillingSetup({ initialComplete, hasCustomer }: { initialComplete: boolean; hasCustomer: boolean }) {
+  const [complete, setComplete] = useState(initialComplete); const [loading, setLoading] = useState(false); const [message, setMessage] = useState("");
+  async function submit(event: React.FormEvent<HTMLFormElement>) { event.preventDefault(); setLoading(true); setMessage(""); const form = new FormData(event.currentTarget); const response = await fetch("/api/billing/profile", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ personType: form.get("personType"), taxId: form.get("taxId"), legalName: form.get("legalName"), postalCode: form.get("postalCode"), addressLine1: form.get("addressLine1"), addressLine2: form.get("addressLine2"), city: form.get("city"), state: form.get("state") }) }); const payload = await response.json(); setLoading(false); if (!response.ok) return setMessage(payload.error?.message ?? "Não foi possível salvar."); setComplete(true); }
+  if (complete) return <div className="billing-setup billing-setup--actions"><BillingActions hasCustomer={hasCustomer} /></div>;
+  return <div className="billing-setup billing-setup--profile"><form className="billing-profile-form" onSubmit={submit}><div><label>Tipo<select name="personType" defaultValue="individual"><option value="individual">Pessoa física</option><option value="company">Pessoa jurídica</option></select></label><label>CPF ou CNPJ<input name="taxId" inputMode="numeric" required /></label><label>Nome / razão social<input name="legalName" required /></label><label>CEP<input name="postalCode" inputMode="numeric" required /></label><label className="wide">Endereço<input name="addressLine1" required /></label><label>Complemento<input name="addressLine2" /></label><label>Cidade<input name="city" required /></label><label>UF<select name="state" defaultValue="" required><option value="" disabled>Selecione</option>{BRAZIL_STATES.map((state) => <option key={state}>{state}</option>)}</select></label></div>{message && <p className="live-form-message" role="status">{message}</p>}<button className="live-gold-button" disabled={loading}>{loading ? "Salvando…" : "Salvar e continuar"}</button></form></div>;
+}

@@ -1,21 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
   title: "Urus FIDC — Matching inteligente de crédito",
   description: "Plataforma para conectar operações financeiras aos FIDCs mais aderentes.",
+  icons: {
+    icon: { url: "/brand/urus-fidc-logo.png", type: "image/png" },
+  },
   openGraph: {
     title: "Urus FIDC — Matching inteligente de crédito",
     description: "O matching inteligente entre empresas e FIDCs.",
@@ -38,10 +31,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {children}
+        <MetaPixel pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID} />
       </body>
     </html>
   );
